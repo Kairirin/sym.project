@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
 class Review
@@ -24,6 +25,11 @@ class Review
     private ?string $comentario = null;
 
     #[ORM\Column(length: 255)]
+        /**
+    * @Assert\File(
+    * mimeTypes={"image/jpeg","image/png"},
+    * mimeTypesMessage = "Solamente se permiten archivos jpeg o png.")
+    */
     private ?string $ruta_captura = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]

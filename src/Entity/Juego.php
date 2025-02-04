@@ -6,6 +6,7 @@ use App\Repository\JuegoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: JuegoRepository::class)]
 class Juego
@@ -19,6 +20,11 @@ class Juego
     private ?string $nombre = null;
 
     #[ORM\Column(length: 255)]
+    /**
+    * @Assert\File(
+    * mimeTypes={"image/jpeg","image/png"},
+    * mimeTypesMessage = "Solamente se permiten archivos jpeg o png.")
+    */
     private ?string $imagen = null;
 
     #[ORM\ManyToOne(inversedBy: 'juegos')]
