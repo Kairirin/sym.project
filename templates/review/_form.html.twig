@@ -1,0 +1,28 @@
+{{ form_start(form) }}
+<div class="container">
+	<div class="my-custom-class-for-errors">
+		{{ form_errors(form) }}
+	</div>
+	<div class="row">
+		<div class="col-md-8">
+			{{ form_row(form.titulo) }}
+		</div>
+		<div class="col-md-8">
+			{{ form_row(form.comentario) }}
+		</div>
+	</div>
+	<div class="row">
+		{{ form_row(form.ruta_captura,{'label':'Captura:','label_attr': {'class':'etiqueta'}}) }}
+		{#TODO: Añadir a class las clases de bootrstrap que tiene el formulario #}
+	</div>
+	<div class="col-md-3">
+		{{ form_row(form.fecha,{'label':'Fecha de creación:','label_attr': {'class':'etiqueta'}}) }}
+	</div> {# TODO: Igual no hace falta porque la guarda automáticamente?? #}
+	<div class="row">
+		<button class="btn">{{ button_label|default('Guardar') }}</button>
+	</div>
+</div>
+{{ form_end(form) }}
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_errors(form) }}
+{{ form_end(form) }}

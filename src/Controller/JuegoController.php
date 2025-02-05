@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\BLL\JuegoBLL;
 use App\Entity\Juego;
 use App\Form\JuegoType;
 use App\Repository\JuegoRepository;
@@ -15,14 +16,28 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/juego')]
 final class JuegoController extends AbstractController
 {
-    #[Route(name: 'app_juego_index', methods: ['GET'])]
-    public function index(JuegoRepository $juegoRepository): Response
+/*     #[Route(name: 'app_juego_index', methods: ['GET'])]
+    public function index(Request $requestStack, JuegoBLL $juegoBLL, JuegoRepository $juegoRepository): Response
     {
         $h1Pagina = "Explora sin límites";
         $sobreTitulo = "¿Lo buscas todo? Aquí lo tienes";
 
         return $this->render('juego/index.html.twig', [
             'juegos' => $juegoRepository->findAll(),
+            'sobretitulo' => $sobreTitulo,
+            'h1Pagina' => $h1Pagina
+        ]);
+    } */
+
+    #[Route('/', name: 'videojuegos_index', methods: ['GET'])]
+    #[Route('/orden/{ordenacion}', name: 'app_imagen_index_ordenado', methods: ['GET'])]
+    public function index(JuegoBLL $juegoBLL, string $ordenacion = null): Response {
+        $juegos = $juegoBLL->getJuegosConOrdenacion($ordenacion);
+        $h1Pagina = "Explora sin límites";
+        $sobreTitulo = "¿Lo buscas todo? Aquí lo tienes";
+
+        return $this->render('juego/index.html.twig', [
+            'juegos' => $juegos,
             'sobretitulo' => $sobreTitulo,
             'h1Pagina' => $h1Pagina
         ]);

@@ -1,20 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ReviewController!{% endblock %}
+{% block title %}Review index
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<h1>Review index</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+	{% for message in app.flashes('mensaje') %}
+		<div class="alert alert-primary" role="alert">
+			{{ message }}
+		</div>
+	{% endfor %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/Irene/Desktop/xampp/htdocs/proyectos/sym.project/src/Controller/ReviewController.php</code></li>
-        <li>Your template at <code>C:/Users/Irene/Desktop/xampp/htdocs/proyectos/sym.project/templates/review/index.html.twig</code></li>
-    </ul>
-</div>
+	<input type="date" name="fechaInicial" id="fechaInicial" value="">
+	<input type="date" name="fechaFinal" id="fechaFinal" value="">
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Titulo</th>
+				<th>Comentario</th>
+				<th>Ruta_captura</th>
+				<th>Fecha</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for review in reviews %}
+				<tr>
+					<td>{{ review.id }}</td>
+					<td>{{ review.titulo }}</td>
+					<td>{{ review.comentario }}</td>
+					<td>{{ review.rutaCaptura }}</td>
+					<td>{{ review.fecha | date('d/m/Y') }}</td>
+					<td>
+						<a href="{{ path('app_review_show', {'id': review.id}) }}">show</a>
+						<a href="{{ path('app_review_edit', {'id': review.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_review_new') }}">Create new</a>
 {% endblock %}

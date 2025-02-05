@@ -17,12 +17,11 @@ class JuegoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nombre')
             ->add('nombre',TextType::class,[
                 'label' => 'Nombre:',
                 'required' => true,
                 /* 'label_attr' => ['class' => 'etiqueta'] */])
-            ->add('nombre', FileType::class, [
+            ->add('imagen', FileType::class, [
                 'label' => 'Portada videojuego (JPG o PNG)',
                 'label_attr' => ['class' => 'etiqueta'],
                 'data_class' => null,
@@ -39,7 +38,7 @@ class JuegoType extends AbstractType
             ])
             ->add('plataforma', EntityType::class, [
                 'class' => Plataforma::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nombre',
             ])
         ;
     }

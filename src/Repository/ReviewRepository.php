@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Review;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,6 +15,25 @@ class ReviewRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Review::class);
+    }
+
+    /**
+     * @return Review[] Returns an array of Imagen objects
+     */
+    public function findReviews(string $fechaInicial, $fechaFinal): array
+    {
+        $qb = $this->createQueryBuilder('i');
+        if (!is_null($fechaInicial) && $fechaInicial !== '') {
+            $dtFechaInicial = DateTime::createFromFormat('Y-m-d', $fechaInicial);
+            $qb->andWhere($qb->expr()->gte('i.fecha', ':fechaInicial'))
+                ->setParameter('fechaInicial', $dtFechaInicial);
+        }
+        if (!is_null($fechaFinal) && $fechaFinal !== '') {
+            $dtFechaFinal = DateTime::createFromFormat('Y-m-d', $fechaFinal);
+            $qb->andWhere($qb->expr()->lte('i.fecha', ':fechaFinal'))
+                ->setParameter('fechaFinal', $dtFechaFinal);
+        }
+        return $qb->getQuery()->getResult();
     }
 
     //    /**

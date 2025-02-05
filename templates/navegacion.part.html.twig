@@ -31,16 +31,16 @@
 
 				<div class="nav-item dropdown">
 					{% if app.request.pathinfo=='/videojuegos' or app.request.pathinfo=='/videojuegos/playstation' or app.request.pathinfo=='/videojuegos/xbox' or app.request.pathinfo=='/videojuegos/nintendo' or app.request.pathinfo=='/videojuegos/retro' %}
-						<a href={{ path('videojuegos') }} class="nav-item nav-link active">Videojuegos</a>
+						<a href={{ path('videojuegos_index') }} class="nav-item nav-link active">Videojuegos</a>
 					{% else %}
-						<a href={{ path('videojuegos') }} class="nav-item nav-link">Videjuegos</a>
+						<a href={{ path('videojuegos_index') }} class="nav-item nav-link">Videjuegos</a>
 					{% endif %}
 					<div class="dropdown-menu m-0">
-						<a href={{ path('videojuegos') }} class="dropdown-item">Ver todo</a>
-						<a href={{ path('videojuegos_ps') }} class="dropdown-item">Playstation</a>
-						<a href={{ path('videojuegos_xb') }} class="dropdown-item">Xbox</a>
-						<a href={{ path('videojuegos_nin') }} class="dropdown-item">Nintendo</a>
-						<a href={{ path('videojuegos_retro') }} class="dropdown-item">Retro</a>
+						<a href={{ path('videojuegos_index') }} class="dropdown-item">Ver todo</a>
+						<a href={{ path('videojuegos_index') }} class="dropdown-item">Playstation</a>
+						<a href={{ path('videojuegos_index') }} class="dropdown-item">Xbox</a>
+						<a href={{ path('videojuegos_index') }} class="dropdown-item">Nintendo</a>
+						<a href={{ path('videojuegos_index') }} class="dropdown-item">Retro</a> {# TODO: Poner bien rutas #}
 					</div>
 				</div>
 			</div>
@@ -51,7 +51,7 @@
 				<a href={{ path('app_logout') }} class="btn btn-primary rounded-pill text-white py-2 px-4  <?php if (Utils::esOpcionMenuActiva('/logout')) echo 'active'; ?>">Log Out</a>
 			{% else %}
 				<a href={{ path('app_login') }} class="btn btn-light border border-primary rounded-pill text-primary py-2 px-4 me-4">Log In</a>
-				<a href="/registro" class="btn btn-primary rounded-pill text-white py-2 px-4">Sign Up</a>
+				<a href={{ path('app_register')}} class="btn btn-primary rounded-pill text-white py-2 px-4">Sign Up</a>
 			{% endif %}
 		</div>
 	</nav>

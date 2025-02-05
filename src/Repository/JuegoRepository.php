@@ -24,6 +24,15 @@ class JuegoRepository extends ServiceEntityRepository
         }
     }
 
+    public function findJuegosPlataformas(string $ordenacion, string $tipoOrdenacion) //TODO: Consultas 5_2
+    {
+        $qb = $this->createQueryBuilder('juego');
+        $qb->addSelect('plataforma')
+            ->innerJoin('juego.plataforma', 'plataforma')
+            ->orderBy('juego.' . $ordenacion, $tipoOrdenacion);
+        return $qb->getQuery()->getResult();
+    }
+
     //    /**
     //     * @return Juego[] Returns an array of Juego objects
     //     */
