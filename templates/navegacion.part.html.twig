@@ -37,10 +37,10 @@
 					{% endif %}
 					<div class="dropdown-menu m-0">
 						<a href={{ path('videojuegos_index') }} class="dropdown-item">Ver todo</a>
-						<a href={{ path('videojuegos_index') }} class="dropdown-item">Playstation</a>
-						<a href={{ path('videojuegos_index') }} class="dropdown-item">Xbox</a>
-						<a href={{ path('videojuegos_index') }} class="dropdown-item">Nintendo</a>
-						<a href={{ path('videojuegos_index') }} class="dropdown-item">Retro</a> {# TODO: Poner bien rutas #}
+						<a href={{ path('videojuegos_filter', {'plataforma': 'playstation'}) }} class="dropdown-item">Playstation</a>
+						<a href={{ path('videojuegos_filter', {'plataforma': 'xbox'}) }} class="dropdown-item">Xbox</a>
+						<a href={{ path('videojuegos_filter', {'plataforma': 'nintendo'}) }} class="dropdown-item">Nintendo</a>
+						<a href={{ path('videojuegos_filter', {'plataforma': 'retro'}) }} class="dropdown-item">Retro</a>
 					{% if is_granted('IS_AUTHENTICATED') and is_granted('ROLE_ADMIN')  %}
 						<div class="dropdown-divider"></div>
           				<a class="dropdown-item" href={{ path('videojuego_new') }}>Añadir nuevo videojuego</a>

@@ -17,7 +17,6 @@ use Symfony\Component\Routing\Attribute\Route;
 final class JuegoController extends AbstractController
 {
     #[Route('/', name: 'videojuegos_index', methods: ['GET'])]
-    #[Route('/orden/{ordenacion}', name: 'app_imagen_index_ordenado', methods: ['GET'])]
     public function index(JuegoBLL $juegoBLL, string $ordenacion = null): Response 
     {
         $juegos = $juegoBLL->getJuegosConOrdenacion($ordenacion);
