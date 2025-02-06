@@ -20,10 +20,10 @@
         <div class="container text-center py-5" style="max-width: 900px;">
             <h3 class="display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Videojuegos</h1>
                 <ol class="breadcrumb justify-content-center mb-0 wow fadeInDown" data-wow-delay="0.3s">
-                    <li class="breadcrumb-item"><a href="/playstation">Playstation</a></li>
-                    <li class="breadcrumb-item"><a href="/xbox">Xbox</a></li>
-                    <li class="breadcrumb-item"><a href="/nintendo">Nintendo</a></li>
-                    <li class="breadcrumb-item"><a href="/retro">Retro</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('videojuegos_filter', {'plataforma': 'playstation'}) }}">Playstation</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('videojuegos_filter', {'plataforma': 'xbox'}) }}">Xbox</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('videojuegos_filter', {'plataforma': 'nintendo'}) }}">Nintendo</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('videojuegos_filter', {'plataforma': 'retro'}) }}">Retro</a></li>
                 </ol>
         </div>
     </div>
@@ -47,15 +47,18 @@
                                 <img src="{{ asset(videojuego.getUrlPortada()) }}" alt="{{ videojuego.nombre }}">
                                 <!-- <div class="tarjeta d-flex justify-content-center">
                             </div> -->
-                                <div class="text-start p-5">
+                                <div class="text-center p-5">
                                     <p><i class="fas fa-check text-success me-1"></i> Plataforma: {{ videojuego.plataforma }}</p>
                                     <p><i class="fas fa-check text-success me-1"></i> Reviews: {{ videojuego.getReviews.count }}</p>
-                                    <a href="{{ path('videojuegos_show', {'id': videojuego.id}) }}"><button class="btn btn-light rounded-pill py-2 px-5" type="button">Ver reviews</button></a>
+                                    <a href="{{ path('videojuegos_show', {'id': videojuego.id}) }}"><button class="btn btn-light rounded-pill py-2 px-5" type="button">Ver reviews</button></a><br>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('videojuego_edit', {'id': videojuego.id}) }}" class="delete">Editar</a>
+                                        <a href="{{ path('videojuego_delete_json', {'id': videojuego.id}) }}" class="delete">Borrar</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                 {% endfor %}
-            <a href="{{ path('app_juego_new') }}">Create new</a> <!--TODO: BORRAR-->
             {% else %}
                 <p class="mb-0 text-center">Anímate y sé el primero en aportar tu videojuego favorito
                 </p>
@@ -64,8 +67,6 @@
         </div>
     </div>
     <!-- Pricing End -->
-
-<!--TODO: Falta que si es admin, podrá acceder al formulario de añadir nuevo-->
 {% endblock %}
 
 {# {% block principal %}

@@ -19,11 +19,10 @@ class JuegoType extends AbstractType
         $builder
             ->add('nombre',TextType::class,[
                 'label' => 'Nombre:',
-                'required' => true,
-                /* 'label_attr' => ['class' => 'etiqueta'] */])
+                'required' => true
+                ])
             ->add('imagen', FileType::class, [
                 'label' => 'Portada videojuego (JPG o PNG)',
-                'label_attr' => ['class' => 'etiqueta'],
                 'data_class' => null,
                 'constraints' => [
                     new File([

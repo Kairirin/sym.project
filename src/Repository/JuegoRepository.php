@@ -24,27 +24,25 @@ class JuegoRepository extends ServiceEntityRepository
         }
     }
 
-/*     public function findTotalJuegos()
-    {
-        $conn = $this->getEntityManager()->getConnection();
-
-        $sql = '
-            SELECT COUNT(*) FROM juego
-            ';
-
-        $resultSet = $conn->executeQuery($sql);
-
-        // returns an array of arrays (i.e. a raw data set)
-        return $resultSet->fetchAllNumeric();
-    } */
-
-    public function findJuegosPlataformas(string $ordenacion, string $tipoOrdenacion) //TODO: Consultas 5_2
+    public function findJuegos(string $ordenacion, string $tipoOrdenacion)
     {
         $qb = $this->createQueryBuilder('juego');
         $qb->addSelect('plataforma')
             ->innerJoin('juego.plataforma', 'plataforma')
             ->orderBy('juego.' . $ordenacion, $tipoOrdenacion);
         return $qb->getQuery()->getResult();
+    }
+
+    public function findJuegosPorPlataforma(array $plats): array
+    {
+        $qb = $this->createQueryBuilder('j')
+            ->andWhere('j.plataforma IN (:plat)')
+            ->setParameter('plat', $plats)
+            ->orderBy('j.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return $qb;
     }
 
     //    /**

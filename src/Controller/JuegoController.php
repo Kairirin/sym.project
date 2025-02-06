@@ -16,22 +16,10 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/videojuegos')]
 final class JuegoController extends AbstractController
 {
-/*     #[Route(name: 'app_juego_index', methods: ['GET'])]
-    public function index(Request $requestStack, JuegoBLL $juegoBLL, JuegoRepository $juegoRepository): Response
-    {
-        $h1Pagina = "Explora sin límites";
-        $sobreTitulo = "¿Lo buscas todo? Aquí lo tienes";
-
-        return $this->render('juego/index.html.twig', [
-            'juegos' => $juegoRepository->findAll(),
-            'sobretitulo' => $sobreTitulo,
-            'h1Pagina' => $h1Pagina
-        ]);
-    } */
-
     #[Route('/', name: 'videojuegos_index', methods: ['GET'])]
     #[Route('/orden/{ordenacion}', name: 'app_imagen_index_ordenado', methods: ['GET'])]
-    public function index(JuegoBLL $juegoBLL, string $ordenacion = null): Response {
+    public function index(JuegoBLL $juegoBLL, string $ordenacion = null): Response 
+    {
         $juegos = $juegoBLL->getJuegosConOrdenacion($ordenacion);
         $h1Pagina = "Explora sin límites";
         $sobreTitulo = "¿Lo buscas todo? Aquí lo tienes";
@@ -43,7 +31,38 @@ final class JuegoController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_juego_new', methods: ['GET', 'POST'])]
+    #[Route('/filter/{plataforma}', name: 'videojuegos_filter', methods: ['GET'])]
+    public function filterByPlatform(JuegoBLL $juegoBLL, string $plataforma): Response 
+    {
+        $platBuscar = null;
+
+        switch($plataforma){
+            case 'playstation':
+                $platBuscar = ['1', '2', '3', '4', '5'];
+                break;
+            case 'retro':
+                $platBuscar = ['6'];
+                break;
+            case 'nintendo':
+                $platBuscar = ['7'];
+                break;
+            case 'xbox':
+                $platBuscar = ['8'];
+                break;
+        }
+
+        $juegos = $juegoBLL->getJuegosPlataforma($platBuscar);
+        $h1Pagina = "Oído cocina";
+        $sobreTitulo = "¿Eres fan de " . $plataforma . "? Aquí lo tienes";
+
+        return $this->render('juego/index.html.twig', [
+            'juegos' => $juegos,
+            'sobretitulo' => $sobreTitulo,
+            'h1Pagina' => $h1Pagina
+        ]);
+    }
+
+    #[Route('/new', name: 'videojuego_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $juego = new Juego();
@@ -59,12 +78,13 @@ final class JuegoController extends AbstractController
             // Move the file to the directory where brochures are stored
             $file->move($this->getParameter('images_directory_portadas'), $fileName);
             // Actualizamos el nombre del archivo en el objeto imagen al nuevo generado
-            $juego->setNombre($fileName);
+            $juego->setNombre($form['nombre']->getData());
+            $juego->setImagen($fileName);
 
             $entityManager->persist($juego);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_juego_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('videojuegos_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('juego/new.html.twig', [
@@ -81,7 +101,7 @@ final class JuegoController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_juego_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'videojuego_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Juego $juego, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(JuegoType::class, $juego);
@@ -90,7 +110,7 @@ final class JuegoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_juego_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('videojuegos_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('juego/edit.html.twig', [
@@ -99,7 +119,7 @@ final class JuegoController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_juego_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'videojuego_delete', methods: ['POST'])]
     public function delete(Request $request, Juego $juego, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $juego->getId(), $request->getPayload()->getString('_token'))) {
@@ -110,10 +130,10 @@ final class JuegoController extends AbstractController
         return $this->redirectToRoute('app_juego_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}', name: 'app_imagen_delete_json', methods: ['DELETE'])]
-    public function deleteJson(Juego $juego, JuegoRepository $imagenRepository): Response
+    #[Route('/{id}', name: 'videojuego_delete_json', methods: ['DELETE'])]
+    public function deleteJson(Juego $juego, JuegoRepository $juegoRepository): Response
     {
-        $imagenRepository->remove($juego, true);
+        $juegoRepository->remove($juego, true);
         return new JsonResponse(['eliminado' => true]);
     }
 }

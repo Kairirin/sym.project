@@ -41,14 +41,15 @@
 						<a href={{ path('videojuegos_index') }} class="dropdown-item">Xbox</a>
 						<a href={{ path('videojuegos_index') }} class="dropdown-item">Nintendo</a>
 						<a href={{ path('videojuegos_index') }} class="dropdown-item">Retro</a> {# TODO: Poner bien rutas #}
-{#TODO: Añadir verificación de rol 						{% if app.user.roles ===  %} #}
+					{% if is_granted('IS_AUTHENTICATED') and is_granted('ROLE_ADMIN')  %}
 						<div class="dropdown-divider"></div>
-          				<a class="dropdown-item" href="#">Something else here</a>
+          				<a class="dropdown-item" href={{ path('videojuego_new') }}>Añadir nuevo videojuego</a>
+					{% endif %}
 					</div>
 				</div>
 			</div>
 			{% if is_granted('IS_AUTHENTICATED') %}
-				{# Cambiar los path de aquí cuando sepa 100% como se pasa el id del profile.  #}
+				{#TODO: Cambiar los path de aquí cuando sepa 100% como se pasa el id del profile.  #}
 				<a href="/perfil/{{ app.user.id }}" class="btn btn-primary rounded-pill text-white py-2 px-4">Mi perfil -
 					{{ app.user.username }}</a>
 				<a href={{ path('app_logout') }} class="btn btn-primary rounded-pill text-white py-2 px-4  <?php if (Utils::esOpcionMenuActiva('/logout')) echo 'active'; ?>">Log Out</a>

@@ -3,11 +3,7 @@
 namespace App\BLL;
 
 use App\Repository\JuegoRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class JuegoBLL
 {
@@ -40,6 +36,11 @@ class JuegoBLL
             $ordenacion = 'id';
             $tipoOrdenacion = 'asc';
         }
-        return $this->juegoRepository->findJuegosPlataformas($ordenacion, $tipoOrdenacion);
+        return $this->juegoRepository->findJuegos($ordenacion, $tipoOrdenacion);
+    }
+
+    public function getJuegosPlataforma(array $plat)
+    {
+        return $this->juegoRepository->findJuegosPorPlataforma($plat);
     }
 }

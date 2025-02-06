@@ -3,28 +3,42 @@
 {% block title %} {{ juego.nombre }} {% endblock %}
 
 {% block principal %}
-    <h1>{{ juego.nombre }}</h1>
+<div class="container-fluid bg-breadcrumb">
+    <ul class="breadcrumb-animation">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <div class="container text-center py-5" style="max-width: 900px;">
+        <h3 class="display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">{{ juego.nombre }}</h1>
+        <h4 class="text-primary">Reviews: {{ juego.getReviews.count }}</h4>
+    </div>
+</div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ juego.id }}</td>
-            </tr>
-            <tr>
-                <th>Nombre</th>
-                <td>{{ juego.nombre }}</td>
-            </tr>
-            <tr>
-                <th>Imagen</th>
-                <td>{{ juego.imagen }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="container-fluid testimonial py-5">
+    <div class="container py-5">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
+            
+        </div>
+        <div class="testimonial-carousel owl-carousel wow zoomInDown" data-wow-delay="0.2s">
+           {#TODO: Include de index de reviews oleeeee#}
+        </div>
+    </div>
+</div>
+<div class="col-lg-6 wow fadeInLeft newReview" data-wow-delay="0.1s">
+    {#TODO: Include del form del nuevo review oleeee#}
+</div>
 
     <a href="{{ path('videojuegos_index') }}">Volver</a>
-
-    <a href="{{ path('app_juego_edit', {'id': juego.id}) }}">Editar</a>
-
+{% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('videojuego_edit', {'id': juego.id}) }}">Editar</a>
     {{ include('juego/_delete_form.html.twig') }}
+{% endif %}
 {% endblock %}
