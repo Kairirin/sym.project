@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/juego')]
+#[Route('/videojuegos')]
 final class JuegoController extends AbstractController
 {
 /*     #[Route(name: 'app_juego_index', methods: ['GET'])]
@@ -73,7 +73,7 @@ final class JuegoController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_juego_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'videojuegos_show', methods: ['GET'])]
     public function show(Juego $juego): Response
     {
         return $this->render('juego/show.html.twig', [

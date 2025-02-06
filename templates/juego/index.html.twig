@@ -49,8 +49,8 @@
                             </div> -->
                                 <div class="text-start p-5">
                                     <p><i class="fas fa-check text-success me-1"></i> Plataforma: {{ videojuego.plataforma }}</p>
-                                    <p><i class="fas fa-check text-success me-1"></i> Reviews: </p>
-                                    <a href="{{ path('app_juego_show', {'id': videojuego.id}) }}"><button class="btn btn-light rounded-pill py-2 px-5" type="button">Ver reviews</button></a>
+                                    <p><i class="fas fa-check text-success me-1"></i> Reviews: {{ videojuego.getReviews.count }}</p>
+                                    <a href="{{ path('videojuegos_show', {'id': videojuego.id}) }}"><button class="btn btn-light rounded-pill py-2 px-5" type="button">Ver reviews</button></a>
                                 </div>
                             </div>
                         </div>

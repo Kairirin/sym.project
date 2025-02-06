@@ -33,7 +33,7 @@
 					{% if app.request.pathinfo=='/videojuegos' or app.request.pathinfo=='/videojuegos/playstation' or app.request.pathinfo=='/videojuegos/xbox' or app.request.pathinfo=='/videojuegos/nintendo' or app.request.pathinfo=='/videojuegos/retro' %}
 						<a href={{ path('videojuegos_index') }} class="nav-item nav-link active">Videojuegos</a>
 					{% else %}
-						<a href={{ path('videojuegos_index') }} class="nav-item nav-link">Videjuegos</a>
+						<a href={{ path('videojuegos_index') }} class="nav-item nav-link">Videojuegos</a>
 					{% endif %}
 					<div class="dropdown-menu m-0">
 						<a href={{ path('videojuegos_index') }} class="dropdown-item">Ver todo</a>
@@ -41,6 +41,9 @@
 						<a href={{ path('videojuegos_index') }} class="dropdown-item">Xbox</a>
 						<a href={{ path('videojuegos_index') }} class="dropdown-item">Nintendo</a>
 						<a href={{ path('videojuegos_index') }} class="dropdown-item">Retro</a> {# TODO: Poner bien rutas #}
+{#TODO: Añadir verificación de rol 						{% if app.user.roles ===  %} #}
+						<div class="dropdown-divider"></div>
+          				<a class="dropdown-item" href="#">Something else here</a>
 					</div>
 				</div>
 			</div>

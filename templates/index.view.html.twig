@@ -14,7 +14,7 @@
                 <a href="#topFive" class="btn btn-primary rounded-pill py-3 px-5 wow fadeInUp" data-wow-delay="0.7s">¡Llévame al Top5!</a>
             </div>
             <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
-                <img src="/public/img/index/{{ portada }}" class="img-fluid w-50 h-50" alt="Portada">
+                <img src="{{ asset(portada) }}" class="img-fluid w-50 h-50" alt="Portada">
             </div>
         </div>
     </div>
@@ -30,7 +30,7 @@
             <!-- Top 5 Videojuegos -->
             <div class="row g-4 justify-content-center text-center mb-5">
 
-                {# {% include 'index-topfive.part.html.twig' with {'lista': juegos} %} #} <!--TODO: Modificar bien esto para que saque las cosas, lo tengo en php-->
+                {% include 'index-topfive.part.html.twig' with {'lista': juegos} %} <!--TODO: Modificar bien esto para que saque las cosas, lo tengo en php-->
                 <div class="col-12 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="my-3">
                         <a href={{ path('videojuegos_index') }} class="btn btn-primary d-inline rounded-pill px-5 py-3">Más juegos</a>

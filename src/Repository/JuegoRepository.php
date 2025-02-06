@@ -24,6 +24,20 @@ class JuegoRepository extends ServiceEntityRepository
         }
     }
 
+/*     public function findTotalJuegos()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT COUNT(*) FROM juego
+            ';
+
+        $resultSet = $conn->executeQuery($sql);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllNumeric();
+    } */
+
     public function findJuegosPlataformas(string $ordenacion, string $tipoOrdenacion) //TODO: Consultas 5_2
     {
         $qb = $this->createQueryBuilder('juego');
