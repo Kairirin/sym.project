@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\BLL\JuegoBLL;
+use App\BLL\ReviewBLL;
 use App\Entity\Juego;
 use App\Form\JuegoType;
 use App\Repository\JuegoRepository;
@@ -96,7 +97,7 @@ final class JuegoController extends AbstractController
     public function show(Juego $juego): Response
     {
         return $this->render('juego/show.html.twig', [
-            'juego' => $juego,
+            'juego' => $juego
         ]);
     }
 
@@ -126,7 +127,7 @@ final class JuegoController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_juego_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('videojuegos_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}', name: 'videojuego_delete_json', methods: ['DELETE'])]

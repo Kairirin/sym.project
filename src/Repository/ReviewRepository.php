@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Juego;
 use App\Entity\Review;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -18,9 +19,9 @@ class ReviewRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Review[] Returns an array of Imagen objects
+     * @return Review[] Returns an array of Review objects
      */
-    public function findReviews(string $fechaInicial, $fechaFinal): array
+    public function findReviewsPorFecha(?string $fechaInicial = null, ?string $fechaFinal = null): array
     {
         $qb = $this->createQueryBuilder('i');
         if (!is_null($fechaInicial) && $fechaInicial !== '') {
@@ -34,6 +35,18 @@ class ReviewRepository extends ServiceEntityRepository
                 ->setParameter('fechaFinal', $dtFechaFinal);
         }
         return $qb->getQuery()->getResult();
+    }
+
+    public function findReviewsPorJuego(int $juego): array
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->andWhere('r.juego = :juego')
+            ->setParameter('juego', $juego)
+            ->orderBy('r.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return $qb;
     }
 
     //    /**

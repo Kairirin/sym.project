@@ -1,51 +1,34 @@
-{% extends 'base.html.twig' %}
+{% if (reviews) %}
+	<div class="testimonial-carousel owl-carousel wow zoomInDown" data-wow-delay="0.2s">
+		{% for rev in reviews %}
+			<div class="testimonial-item" data-dot="<img class='img-fluid' src='{{ asset(rev.getUrlCaptura()) }}' alt=''>">
+				<div class="testimonial-inner text-center p-5">
+					<div class="d-flex align-items-center justify-content-center mb-4">
+						<div class="testimonial-inner-img border border-primary border-3 me-4" style="width: 100px; height: 100px; border-radius: 50%;">
+							<img src="{{ asset(rev.autor.getUrlAvatar()) }}" class="img-fluid rounded-circle" alt="{{ rev.autor}}">
+						</div>
+						<div>
+							<h5 class="mb-2">{{ rev.titulo }}</h5>
+							<p class="mb-0">{{ rev.autor }}</p>
+						</div>
+					</div>
+					<div class="w-50 text-center aux">
+						<p class="fs-7">{{ rev.comentario }}</p>
+						<img src='{{ asset(rev.getUrlCaptura()) }}' alt="">
+					</div>
 
-{% block title %}Review index
-{% endblock %}
-
-{% block body %}
-	<h1>Review index</h1>
-
-	{% for message in app.flashes('mensaje') %}
-		<div class="alert alert-primary" role="alert">
-			{{ message }}
+					{# <div class="d-flex justify-content-center">
+						<i class="fas fa-star text-primary"></i>
+						<i class="fas fa-star text-primary"></i>
+						<i class="fas fa-star text-primary"></i>
+						<i class="fas fa-star text-primary"></i>
+						<i class="fas fa-star text-primary"></i>
+					</div> #}
+				</div>
+			</div>
 		</div>
 	{% endfor %}
-
-	<input type="date" name="fechaInicial" id="fechaInicial" value="">
-	<input type="date" name="fechaFinal" id="fechaFinal" value="">
-
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Titulo</th>
-				<th>Comentario</th>
-				<th>Ruta_captura</th>
-				<th>Fecha</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for review in reviews %}
-				<tr>
-					<td>{{ review.id }}</td>
-					<td>{{ review.titulo }}</td>
-					<td>{{ review.comentario }}</td>
-					<td>{{ review.rutaCaptura }}</td>
-					<td>{{ review.fecha | date('d/m/Y') }}</td>
-					<td>
-						<a href="{{ path('app_review_show', {'id': review.id}) }}">show</a>
-						<a href="{{ path('app_review_edit', {'id': review.id}) }}">edit</a>
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="5">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
-	<a href="{{ path('app_review_new') }}">Create new</a>
-{% endblock %}
+</div>
+{% else %}
+<p class="mb-0">Anímate y sé el primero en comentar</p>
+{% endif %}

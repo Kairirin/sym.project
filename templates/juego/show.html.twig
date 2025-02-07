@@ -24,16 +24,12 @@
 
 <div class="container-fluid testimonial py-5">
     <div class="container py-5">
-        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
-            
-        </div>
-        <div class="testimonial-carousel owl-carousel wow zoomInDown" data-wow-delay="0.2s">
-           {#TODO: Include de index de reviews oleeeee#}
-        </div>
+        {# {% include './review/index.html.twig' with {'reviews': reviews} %} #}
+        {{ render(controller('App\\Controller\\ReviewController::index', { 'juego': juego })) }}
     </div>
 </div>
 <div class="col-lg-6 wow fadeInLeft newReview" data-wow-delay="0.1s">
-    {#TODO: Include del form del nuevo review oleeee#}
+    {{ render(controller('App\\Controller\\ReviewController::new', { 'juego': juego })) }}
 </div>
 
     <a href="{{ path('videojuegos_index') }}">Volver</a>

@@ -33,9 +33,9 @@ class Review
     */
     private ?string $ruta_captura = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reviews')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Usuario $autor = null;
+    private ?User $autor = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $fecha = null;
@@ -95,12 +95,12 @@ class Review
         return $this;
     }
 
-    public function getAutor(): ?Usuario
+    public function getAutor(): ?User
     {
         return $this->autor;
     }
 
-    public function setAutor(?Usuario $autor): static
+    public function setAutor(?User $autor): static
     {
         $this->autor = $autor;
 
