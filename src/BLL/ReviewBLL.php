@@ -25,4 +25,9 @@ class ReviewBLL
     {
         return $this->reviewRepository->findReviewsPorJuego($juego);
     }
+
+    public function getReviewsAutor(int $autor)
+    {
+        return $this->reviewRepository->findReviewsPorAutor($autor);
+    }
 }

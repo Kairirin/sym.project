@@ -5,12 +5,13 @@ namespace App\Controller;
 use App\BLL\ReviewBLL;
 use App\Entity\Juego;
 use App\Entity\Review;
+use App\Entity\User;
 use App\Form\ReviewType;
 use App\Repository\ReviewRepository;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -27,12 +28,20 @@ final class ReviewController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'review_new', methods: ['GET', 'POST'])]
-    public function new(Juego $juego, Request $request, EntityManagerInterface $entityManager, Security $security): Response
+    #[Route('videojuegos/{id}/new', name: 'review_new', methods: ['GET', 'POST'])]
+    public function new(Juego $juegoId, Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
         $user = $security->getUser();
         $review = new Review();
+        $juego = $entityManager->getRepository(Juego::class)->find($juegoId);
+
+        $review->setJuego($juego);
+        $review->setFecha(new \DateTime());
+        $review->setAutor($user);
         echo $juego;
+        echo $juego->getId();
+        echo $review->getJuego();
+        echo $review->getAutor();
 
         $form = $this->createForm(ReviewType::class, $review);
         $form->handleRequest($request);
@@ -49,11 +58,6 @@ final class ReviewController extends AbstractController
         
             $review->setTitulo($form['titulo']->getData());
             $review->setComentario($form['comentario']->getData());
-            $review->setJuego($juego);
-            $review->setFecha(new DateTime());
-            $review->setAutor($user);
-
-            echo $review;
 
             $entityManager->persist($review);
             $entityManager->flush();
@@ -63,38 +67,56 @@ final class ReviewController extends AbstractController
         }
 
         return $this->render('review/new.html.twig', [
+            'juego' => $juego,
             'review' => $review,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_review_show', methods: ['GET'])]
-    public function show(Review $review): Response
+    #[Route(name: 'review_user_show', methods: ['GET'])]
+    public function show(User $user, ReviewBLL $reviewBll): Response
     {
+        $reviews = $reviewBll->getReviewsAutor($user->getId());
+
         return $this->render('review/show.html.twig', [
-            'review' => $review,
+            'reviews' => $reviews,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_review_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Review $review, EntityManagerInterface $entityManager): Response
+    #[Route('/videojuegos/{idJ}/edit/{idR}', name: 'review_edit', methods: ['GET', 'POST'])]
+    public function edit(int $idJ, Request $request, int $idR, EntityManagerInterface $entityManager): Response
     {
+        $juego = $entityManager->getRepository(Juego::class)->find($idJ);
+        $review = $entityManager->getRepository(Review::class)->find($idR);
+
         $form = $this->createForm(ReviewType::class, $review);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form['ruta_captura']->getData();
+
+            if ($file) {
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move($this->getParameter('images_directory_capturas'), $fileName);
+                $review->setRutaCaptura($fileName);
+            }
+        
+            $review->setTitulo($form['titulo']->getData());
+            $review->setComentario($form['comentario']->getData());
+
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_review_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('videojuegos_show', ['id' => $juego->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('review/edit.html.twig', [
+            'juego' => $juego,
             'review' => $review,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_review_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'review_delete', methods: ['POST'])]
     public function delete(Request $request, Review $review, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$review->getId(), $request->getPayload()->getString('_token'))) {
@@ -103,5 +125,12 @@ final class ReviewController extends AbstractController
         }
 
         return $this->redirectToRoute('app_review_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}', name: 'review_delete_json', methods: ['DELETE'])]
+    public function deleteJson(Review $review, ReviewRepository $reviewRepository): Response
+    {
+        $reviewRepository->remove($review, true);
+        return new JsonResponse(['eliminado' => true]);
     }
 }

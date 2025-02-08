@@ -1,40 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ juego.nombre }} {% endblock %}
+{% block title %}
+	{{ juego.nombre }}
+{% endblock %}
 
 {% block principal %}
-<div class="container-fluid bg-breadcrumb">
-    <ul class="breadcrumb-animation">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-    </ul>
-    <div class="container text-center py-5" style="max-width: 900px;">
-        <h3 class="display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">{{ juego.nombre }}</h1>
-        <h4 class="text-primary">Reviews: {{ juego.getReviews.count }}</h4>
-    </div>
-</div>
+	<div class="container-fluid bg-breadcrumb">
+		<ul class="breadcrumb-animation">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<div class="container text-center py-5" style="max-width: 900px;">
+			<h3 class="display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">{{ juego.nombre }}</h1>
+			<h4 class="text-primary">Reviews:
+				{{ juego.getReviews.count }}</h4>
+		</div>
+	</div>
+	<div class="container text-center">
+		{% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+			<a href="{{ path('review_new', {'id': juego.id}) }}">
+				<button class="btn btn-light rounded-pill py-2 px-5" type="button">Añadir reviews</button>
+			</a>
+		{% endif %}
+		<br>
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{ path('videojuego_edit', {'id': juego.id}) }}">Editar</a>
+			{{ include('juego/_delete_form.html.twig') }}
+		{% endif %}
+	</div>
+	<div class="container-fluid testimonial py-5">
+		<div
+			class="container py-5">
+			{# {% include './review/index.html.twig' with {'reviews': reviews} %} #}
+			{{ render(controller('App\\Controller\\ReviewController::index', { 'juego': juego })) }}
+		</div>
+	</div>
 
-<div class="container-fluid testimonial py-5">
-    <div class="container py-5">
-        {# {% include './review/index.html.twig' with {'reviews': reviews} %} #}
-        {{ render(controller('App\\Controller\\ReviewController::index', { 'juego': juego })) }}
-    </div>
-</div>
-<div class="col-lg-6 wow fadeInLeft newReview" data-wow-delay="0.1s">
-    {{ render(controller('App\\Controller\\ReviewController::new', { 'juego': juego })) }}
-</div>
+	<a href="{{ path('videojuegos_index') }}">Volver</a>
 
-    <a href="{{ path('videojuegos_index') }}">Volver</a>
-{% if is_granted('ROLE_ADMIN') %}
-    <a href="{{ path('videojuego_edit', {'id': juego.id}) }}">Editar</a>
-    {{ include('juego/_delete_form.html.twig') }}
-{% endif %}
 {% endblock %}

@@ -1,34 +1,30 @@
 {% if (reviews) %}
 	<div class="testimonial-carousel owl-carousel wow zoomInDown" data-wow-delay="0.2s">
-		{% for rev in reviews %}
-			<div class="testimonial-item" data-dot="<img class='img-fluid' src='{{ asset(rev.getUrlCaptura()) }}' alt=''>">
+		{% for review in reviews %}
+			<div class="testimonial-item" data-dot="<img class='img-fluid' src='{{ asset(review.getUrlCaptura()) }}' alt=''>">
 				<div class="testimonial-inner text-center p-5">
 					<div class="d-flex align-items-center justify-content-center mb-4">
 						<div class="testimonial-inner-img border border-primary border-3 me-4" style="width: 100px; height: 100px; border-radius: 50%;">
-							<img src="{{ asset(rev.autor.getUrlAvatar()) }}" class="img-fluid rounded-circle" alt="{{ rev.autor}}">
+							<img src="{{ asset(review.autor.getUrlAvatar()) }}" class="img-fluid rounded-circle" alt="{{ review.autor}}">
 						</div>
 						<div>
-							<h5 class="mb-2">{{ rev.titulo }}</h5>
-							<p class="mb-0">{{ rev.autor }}</p>
+							<h5 class="mb-2">{{ review.titulo }}</h5>
+							<p class="mb-0">{{ review.autor }}</p>
 						</div>
 					</div>
 					<div class="w-50 text-center aux">
-						<p class="fs-7">{{ rev.comentario }}</p>
-						<img src='{{ asset(rev.getUrlCaptura()) }}' alt="">
+						<p class="fs-7">{{ review.comentario }}</p>
+						<img src='{{ asset(review.getUrlCaptura()) }}' alt="">
 					</div>
-
-					{# <div class="d-flex justify-content-center">
-						<i class="fas fa-star text-primary"></i>
-						<i class="fas fa-star text-primary"></i>
-						<i class="fas fa-star text-primary"></i>
-						<i class="fas fa-star text-primary"></i>
-						<i class="fas fa-star text-primary"></i>
-					</div> #}
+					{% if app.user and review.autor == app.user %}
+						<a href="{{ path('review_edit', {'idJ': review.juego.id, 'idR': review.id}) }}">Editar</a>
+						{{ include('review/_delete_form.html.twig') }}
+					{% endif %}
 				</div>
 			</div>
-		</div>
-	{% endfor %}
-</div>
+		{% endfor %}
+	</div>
+
 {% else %}
-<p class="mb-0">Anímate y sé el primero en comentar</p>
+	<p class="mb-0">Anímate y sé el primero en comentar</p>
 {% endif %}

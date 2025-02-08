@@ -49,6 +49,18 @@ class ReviewRepository extends ServiceEntityRepository
         return $qb;
     }
 
+    public function findReviewsPorAutor(int $autor): array
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->andWhere('r.autor = :autor')
+            ->setParameter('autor', $autor)
+            ->orderBy('r.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return $qb;
+    }
+
     //    /**
     //     * @return Review[] Returns an array of Review objects
     //     */

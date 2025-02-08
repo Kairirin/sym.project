@@ -1,7 +1,7 @@
 {{ form_start(form) }}
 <div class="row g-3">
 {{ form_errors(form) }}
-	<div class="col-lg-12 col-xl-6">
+	<div class="col-lg-12">
 		<div class="form-floating">
 			{{ form_row(form.titulo) }}
 		</div>
@@ -19,6 +19,7 @@
 	<div class="col-12">
 		<button class="btn">{{ button_label|default('Enviar') }}</button>
 	</div>
+	{{ form_errors(form) }}
 </div>
 {{ form_end(form) }}
 

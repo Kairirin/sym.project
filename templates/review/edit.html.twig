@@ -1,13 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Review{% endblock %}
+{% block title %} {{ juego.nombre }} {% endblock %}
 
-{% block body %}
-    <h1>Edit Review</h1>
-
-    {{ include('review/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_review_index') }}">back to list</a>
-
-    {{ include('review/_delete_form.html.twig') }}
+{% block principal %}
+<div class="container-fluid bg-breadcrumb">
+    <ul class="breadcrumb-animation">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <div class="container text-center py-5" style="max-width: 900px;">
+        <h3 class="display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">{{ juego.nombre }}</h1>
+        <h4 class="text-primary">Edita tu review</h4>
+    </div>
+</div>
+<div class="container-fluid testimonial py-5">
+ {{ include('review/_form.html.twig', {'button_label': 'Update'}) }}
+ <a href="{{ path('videojuegos_show', {'id': juego.id}) }}">back to list</a>
+</div>
+{{ include('review/_delete_form.html.twig') }}
 {% endblock %}
