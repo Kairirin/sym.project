@@ -38,9 +38,12 @@
                         {{ form_row(registrationForm.password, {
                                 label: 'Password'
                             }) }}
-                        <button type="submit" class="pull-right btn btn-lg sr-button">ENVIAR</button>
                     </div>
                 </div>
+                <div class="col-12 col-xl-6">
+                    {{ form_row(registrationForm.avatar,{'label':'Avatar:'}) }}
+                </div>
+                <button type="submit" class="pull-right btn btn-lg sr-button">ENVIAR</button>
             {{ form_end(registrationForm) }}
         </div>
     </div>

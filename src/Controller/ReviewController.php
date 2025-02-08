@@ -38,10 +38,6 @@ final class ReviewController extends AbstractController
         $review->setJuego($juego);
         $review->setFecha(new \DateTime());
         $review->setAutor($user);
-        echo $juego;
-        echo $juego->getId();
-        echo $review->getJuego();
-        echo $review->getAutor();
 
         $form = $this->createForm(ReviewType::class, $review);
         $form->handleRequest($request);
@@ -124,7 +120,7 @@ final class ReviewController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_review_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('videojuegos_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}', name: 'review_delete_json', methods: ['DELETE'])]

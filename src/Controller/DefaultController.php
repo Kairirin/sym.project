@@ -15,7 +15,17 @@ class DefaultController extends AbstractController
     {
         $totalJuegos = count($doctrine->getRepository(Juego::class)->findAll());
         $totalUsuarios = count($doctrine->getRepository(User::class)->findAll());
+        
         $videojuegos = $doctrine->getRepository(Juego::class)->findAll();
+
+        if (sizeof($videojuegos) > 1 )
+        {
+            usort($videojuegos, function($j1, $j2) {
+                return count($j2->getReviews()) - count($j1->getReviews());
+            });
+
+            array_slice($videojuegos, 0, 5);
+        }
         
         $numeroPortada = rand(1, 3);
 
@@ -29,8 +39,13 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    #[Route('/about', name: 'about')] //Se podrá acceder desde navegador poniendo sym.local/about
-    public function abaut() {
+    #[Route('/about', name: 'about')]
+    public function about() {
+        return $this->render('about.view.html.twig');
+    }
+
+    #[Route('/admin', name: 'panel_admin')] 
+    public function admin() {
         return $this->render('about.view.html.twig');
     }
 }

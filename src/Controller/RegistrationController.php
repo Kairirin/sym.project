@@ -27,6 +27,14 @@ class RegistrationController extends AbstractController
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
+            $file = $form['avatar']->getData();
+
+            if ($file) {
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move($this->getParameter('images_directory_avatares'), $fileName);
+                $user->setAvatar($fileName);
+            }
+
             $entityManager->persist($user);
             $user->setRoles(["ROLE_USER"]);
             $entityManager->flush();
