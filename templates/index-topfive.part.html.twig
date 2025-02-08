@@ -13,7 +13,7 @@
                     </div>
                     <div class="feature-content">
                         <a href={{ path('videojuegos_show', { id: videojuego.getId() }) }} class="h4">{{ videojuego.getNombre() }}<i class="fa fa-long-arrow-alt-right"></i></a>
-                        <p class="mt-4 mb-0">Plataforma: {{ videojuego.getPlataforma() }}</p> <!-- TODO: Hacer más párrafos, que coja plataforma, genero, cantidad de comentarios y ¿puntuación global?-->
+                        <p class="mt-4 mb-0">Plataforma: {{ videojuego.getPlataforma() }}</p> 
                         <p class="mt-4 mb-0">Cantidad de reviews: {{ videojuego.getReviews.count }}</p>
                     </div>
                 </div>

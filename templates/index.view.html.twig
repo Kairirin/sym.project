@@ -30,7 +30,7 @@
             <!-- Top 5 Videojuegos -->
             <div class="row g-4 justify-content-center text-center mb-5">
 
-                {% include 'index-topfive.part.html.twig' with {'lista': juegos} %} <!--TODO: Modificar bien esto para que saque las cosas, lo tengo en php-->
+                {% include 'index-topfive.part.html.twig' with {'lista': juegos} %}
                 <div class="col-12 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="my-3">
                         <a href={{ path('videojuegos_index') }} class="btn btn-primary d-inline rounded-pill px-5 py-3">Más juegos</a>
@@ -56,7 +56,7 @@
                             <div class="d-flex">
                                 <i class="fas fa-newspaper fa-4x text-secondary"></i>
                                 <div class="d-flex flex-column ms-3">
-                                    <h2 class="mb-0 fw-bold">{{ totalJuegos }}</h2> <!--TODO: Modificar datos en controller-->
+                                    <h2 class="mb-0 fw-bold">{{ totalJuegos }}</h2>
                                     <small class="text-dark">videojuegos comentados</small>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                             <div class="d-flex">
                                 <i class="fas fa-users fa-4x text-secondary"></i>
                                 <div class="d-flex flex-column ms-3">
-                                    <h2 class="mb-0 fw-bold">{{ totalUsuarios }}</h2> <!--TODO: Modificar datos en controller-->
+                                    <h2 class="mb-0 fw-bold">{{ totalUsuarios }}</h2>
                                     <small class="text-dark">usuarios</small>
                                 </div>
                             </div>
