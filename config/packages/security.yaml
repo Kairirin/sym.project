@@ -36,11 +36,19 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/juego/new, roles: ROLE_ADMIN }
-        - { path: ^/juego/edit, roles: ROLE_ADMIN }
-        - { path: ^/juego/delete, roles: ROLE_ADMIN }
-        - { path: ^/juego/busqueda, roles: ROLE_USER }
+        - { path: ^/user$, roles: ROLE_ADMIN }
+        - { path: ^/user/new, roles: ROLE_ADMIN }
+        - { path: ^/videojuegos/new, roles: ROLE_ADMIN }
+        - { path: ^/videojuegos/edit/.*, roles: ROLE_ADMIN }
+        - { path: ^/user/\d+$, roles: ROLE_USER }
+        - { path: ^/user/\d+$/edit, roles: ROLE_USER }
+        - { path: ^/videojuegos/\d+/new, roles: ROLE_USER }
+        - { path: ^/videojuegos/\d+/edit/\d+$, roles: ROLE_USER }
+        - { path: ^/videojuegos, roles: PUBLIC_ACCESS }
+        - { path: ^/videojuegos/\d+$, roles: PUBLIC_ACCESS }
+        - { path: ^/videojuegos/\d+/busqueda, roles: PUBLIC_ACCESS }
+        - { path: ^/videojuegos/filter/.*, roles: PUBLIC_ACCESS }
+        - { path: ^/about, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
         # allow unauthenticated users to access the login form
         - { path: ^/login, roles: PUBLIC_ACCESS }
