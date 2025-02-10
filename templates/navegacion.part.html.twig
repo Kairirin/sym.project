@@ -48,7 +48,7 @@
 					</div>
 				</div>
 				{% if is_granted('IS_AUTHENTICATED') and is_granted('ROLE_ADMIN')  %}
-					<a href={{ path('panel_admin') }} class="nav-item nav-link">Panel de administrador</a>
+					<a href={{ path('user_index') }} class="nav-item nav-link">Panel de administrador</a>
 				{% endif %}
 			</div>
 			{% if is_granted('IS_AUTHENTICATED') %}

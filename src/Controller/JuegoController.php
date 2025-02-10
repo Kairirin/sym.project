@@ -96,7 +96,22 @@ final class JuegoController extends AbstractController
     public function show(Juego $juego): Response
     {
         return $this->render('juego/show.html.twig', [
-            'juego' => $juego
+            'juego' => $juego,
+            'fechaInicial' => '',
+            'fechaFinal' => ''
+        ]);
+    }
+
+    #[Route('/{id}/busqueda', name: 'videojuegos_show_busqueda', methods: ['POST'])]
+    public function busqueda(Juego $juego, Request $request): Response
+    {
+        $fechaInicial = $request->request->get('fechaInicial');
+        $fechaFinal = $request->request->get('fechaFinal');
+
+        return $this->render('juego/show.html.twig', [
+            'juego' => $juego,
+            'fechaInicial' => $fechaInicial,
+            'fechaFinal' => $fechaFinal
         ]);
     }
 

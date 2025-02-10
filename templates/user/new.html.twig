@@ -1,11 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ user.username }}{% endblock %}
+{% block title %}Nuevo usuario{% endblock %}
 
-{% block body %}
-    <h1>Create new User</h1>
-
+{% block principal %}
+<div class="container-fluid bg-breadcrumb">
+    <ul class="breadcrumb-animation">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <div class="container text-center py-5" style="max-width: 900px;">
+        <h3 class="display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Nuevo usuario</h1>
+    </div>
+</div>
     {{ include('user/_form.html.twig') }}
 
-    <a href="{{ path('app_user_index') }}">back to list</a>
+    <a href="{{ path('user_index') }}">Volver al listado</a>
 {% endblock %}

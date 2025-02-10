@@ -21,17 +21,20 @@ class ReviewRepository extends ServiceEntityRepository
     /**
      * @return Review[] Returns an array of Review objects
      */
-    public function findReviewsPorFecha(?string $fechaInicial = null, ?string $fechaFinal = null): array
+    public function findReviewsPorFecha(int $juego, ?string $fechaInicial = null, ?string $fechaFinal = null): array
     {
-        $qb = $this->createQueryBuilder('i');
+        $qb = $this->createQueryBuilder('r')
+            ->andWhere('r.juego = :juego')
+            ->setParameter('juego', $juego);
+
         if (!is_null($fechaInicial) && $fechaInicial !== '') {
             $dtFechaInicial = DateTime::createFromFormat('Y-m-d', $fechaInicial);
-            $qb->andWhere($qb->expr()->gte('i.fecha', ':fechaInicial'))
+            $qb->andWhere($qb->expr()->gte('r.fecha', ':fechaInicial'))
                 ->setParameter('fechaInicial', $dtFechaInicial);
         }
         if (!is_null($fechaFinal) && $fechaFinal !== '') {
             $dtFechaFinal = DateTime::createFromFormat('Y-m-d', $fechaFinal);
-            $qb->andWhere($qb->expr()->lte('i.fecha', ':fechaFinal'))
+            $qb->andWhere($qb->expr()->lte('r.fecha', ':fechaFinal'))
                 ->setParameter('fechaFinal', $dtFechaFinal);
         }
         return $qb->getQuery()->getResult();

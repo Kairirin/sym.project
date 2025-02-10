@@ -21,9 +21,10 @@ class ReviewBLL
         return $this->reviewRepository->findReviews();
     }
     
-    public function getReviews(int $juego)
+    public function getReviews(int $juego, ?string $fechaInicial = null, ?string $fechaFinal = null)
     {
-        return $this->reviewRepository->findReviewsPorJuego($juego);
+/*         return $this->reviewRepository->findReviewsPorJuego($juego); */
+        return $this->reviewRepository->findReviewsPorFecha($juego, $fechaInicial, $fechaFinal);
     }
 
     public function getReviewsAutor(int $autor)

@@ -36,12 +36,22 @@
 			{{ include('juego/_delete_form.html.twig') }}
 		{% endif %}
 	</div>
-	<div class="container-fluid testimonial py-5">
-		<div
-			class="container py-5">
-			{# {% include './review/index.html.twig' with {'reviews': reviews} %} #}
-			{{ render(controller('App\\Controller\\ReviewController::index', { 'juego': juego })) }}
+	<form class="form-horizontal" action="{{ path('videojuegos_show_busqueda', {'id': juego.id}) }}" method="post">
+		<div class="form-group">
+			<div class="col-6">
+				<label class="label-control">Búsqueda (fecha inicial / fecha final):</label>
+			</div>
+			<div class="col-4">
+				<input class="form-control" type="date" name="fechaInicial" id="fechaInicial" value="{{ fechaInicial | default('') }}">
+				<input class="form-control" type="date" name="fechaFinal" id="fechaFinal" value="{{ fechaFinal | default('') }}">
+				<input type="submit" value="Buscar">
+			</div>
 		</div>
+	</form>
+	<div
+		class="container-fluid testimonial py-5">
+		{# {% include './review/index.html.twig' with {'reviews': reviews} %} #}
+		{{ render(controller('App\\Controller\\ReviewController::index', { 'juego': juego, 'fechaInicial': fechaInicial, 'fechaFinal': fechaFinal })) }}
 	</div>
 
 	<a href="{{ path('videojuegos_index') }}">Volver</a>

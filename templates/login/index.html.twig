@@ -28,7 +28,7 @@
             {% if error %}
                 <div class="etiqueta">{{ error.messageKey|trans(error.messageData, 'security') }}</div><br>
             {% endif %}
-            <form clas="form-horizontal" action="{{ path('app_login') }}" method="post">
+            <form class="form-horizontal" action="{{ path('app_login') }}" method="post">
                 <div class="form-group">
                     <div class="col-xs-12">
                         <label class="label-control" for="username">Username</label>

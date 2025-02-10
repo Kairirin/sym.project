@@ -28,13 +28,15 @@
 <div class="container-fluid contact py-5">
     <div class="container py-5">
         <div class="row g-5 align-items-center">
+            {% if app.user and (user.username == app.user.username or is_granted('ROLE_ADMIN')) %}
             <div class="col-lg-12 wow fadeInLeft" data-wow-delay="0.1s">
                 <a href="{{ path('user_edit', {'id': user.id}) }}">
 				<button class="btn btn-light rounded-pill py-2 px-5" type="button">Editar perfil</button>
 			</a>
             </div>
+            {% endif %}
             <div class="col-lg-12 wow fadeInRight" data-wow-delay="0.3s">
-                <h2 class="display-5 mb-2">Mis reseñas</h2>
+                <h2 class="display-5 mb-2">Reseñas</h2>
                 {{ render(controller('App\\Controller\\ReviewController::show', { 'user': user })) }}
             </div>
         </div>

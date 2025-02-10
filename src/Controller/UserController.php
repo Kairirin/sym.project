@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -24,14 +25,29 @@ final class UserController extends AbstractController
     }
 
     #[Route('/new', name: 'user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form['avatar']->getData();
+
+            if ($file) {
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move($this->getParameter('images_directory_avatares'), $fileName);
+                $user->setAvatar($fileName);
+            }
+
+            $password = $form->get('plainPassword')->getData();
+            $user->setPassword($userPasswordHasher->hashPassword($user, $password));
+        
+            $user->setUsername($form['username']->getData());
+
             $entityManager->persist($user);
+            $user->setRoles(["ROLE_USER"]);
+            
             $entityManager->flush();
 
             return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
@@ -66,7 +82,7 @@ final class UserController extends AbstractController
                 $user->setAvatar($fileName);
             }
 
-            $newPassword = $form->get('plainPassword')->getData(); // Capturar nueva contraseña
+            $newPassword = $form->get('plainPassword')->getData();
 
             if ($newPassword) {
                 $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
@@ -95,5 +111,12 @@ final class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}', name: 'user_delete_json', methods: ['DELETE'])]
+    public function deleteJson(User $user, UserRepository $userRepository): Response
+    {
+        $userRepository->remove($user, true);
+        return new JsonResponse(['eliminado' => true]);
     }
 }

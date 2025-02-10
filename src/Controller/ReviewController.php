@@ -19,14 +19,24 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ReviewController extends AbstractController
 {
     #[Route(name: 'reviews_index', methods: ['GET'])]
-    public function index(Juego $juego, ReviewBLL $reviewBll): Response
+    public function index(Juego $juego, ?string $fechaInicial, ?string $fechaFinal, ReviewBLL $reviewBll): Response
     {
-        $reviews = $reviewBll->getReviews($juego->getId());
+        $reviews = $reviewBll->getReviews($juego->getId(), $fechaInicial, $fechaFinal);
+
+        return $this->render('review/index.html.twig', [
+            'reviews' => $reviews
+        ]);
+    }
+
+/*     #[Route(name: 'reviews_index_busqueda', methods: ['GET'])]
+    public function busqueda(Juego $juego, ?string $fechaInicial, ?string $fechaFinal, ReviewBLL $reviewBll): Response
+    {
+        $reviews = $reviewBll->getReviews($juego->getId(), $fechaInicial, $fechaFinal);
 
         return $this->render('review/index.html.twig', [
             'reviews' => $reviews,
         ]);
-    }
+    } */
 
     #[Route('videojuegos/{id}/new', name: 'review_new', methods: ['GET', 'POST'])]
     public function new(Juego $juegoId, Request $request, EntityManagerInterface $entityManager, Security $security): Response
@@ -51,14 +61,14 @@ final class ReviewController extends AbstractController
                 $file->move($this->getParameter('images_directory_capturas'), $fileName);
                 $review->setRutaCaptura($fileName);
             }
-        
+
             $review->setTitulo($form['titulo']->getData());
             $review->setComentario($form['comentario']->getData());
 
             $entityManager->persist($review);
             $entityManager->flush();
 
-            $this->addFlash('mensaje', 'Se ha guardado el comentario en ' . $review->getJuego()); 
+            $this->addFlash('mensaje', 'Se ha guardado el comentario en ' . $review->getJuego());
             return $this->redirectToRoute('videojuegos_show', ['id' => $juego->getId()], Response::HTTP_SEE_OTHER);
         }
 
@@ -96,7 +106,7 @@ final class ReviewController extends AbstractController
                 $file->move($this->getParameter('images_directory_capturas'), $fileName);
                 $review->setRutaCaptura($fileName);
             }
-        
+
             $review->setTitulo($form['titulo']->getData());
             $review->setComentario($form['comentario']->getData());
 
@@ -115,7 +125,7 @@ final class ReviewController extends AbstractController
     #[Route('/{id}', name: 'review_delete', methods: ['POST'])]
     public function delete(Request $request, Review $review, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$review->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $review->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($review);
             $entityManager->flush();
         }

@@ -4,13 +4,14 @@
 			<div class="bg-light d-flex align-items-center justify-content-center mb-3" style="width: 90px; height: 90px; border-radius: 50px;"><img src="{{ asset(review.getUrlCaptura()) }}" alt="" class="h-50"></div>
 			<div class="ms-4">
 				<h4>{{ review.titulo }}</h4>
-				<a href={{ path('videojuegos_show', {'id': review.juego.id}) }}>{{ review.juego }}</a>
+				<a href={{ path('videojuegos_show', {'id': review.juego.id} ) }}>{{ review.juego }}</a>
 				<p class="mb-0">{{ review.comentario }}</p>
-                <a href="{{ path('review_edit', {'idJ': review.juego.id, 'idR': review.id}) }}"><i class="fas fa-pen"></i> Editar</a>
-				{{ include('review/_delete_form.html.twig') }}
-{# 				<a href="/comentario/<?=$rev->getId()?>/borrar">
-					<i class="fas fa-trash-alt"></i>
-				</a> #}
+				{% if app.user and (review.autor.username == app.user.username or is_granted('ROLE_ADMIN')) %}
+					<a href="{{ path('review_edit', {'idJ': review.juego.id, 'idR': review.id}) }}">
+						<i class="fas fa-pen"></i>
+						Editar</a>
+					{{ include('review/_delete_form.html.twig') }}
+				{% endif %}
 			</div>
 		</div>
 	{% endfor %}
