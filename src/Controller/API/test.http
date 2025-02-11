@@ -1,0 +1,77 @@
+### JUEGOS
+
+### Petición GET
+GET http://sym.project/api/prueba
+Content-Type: application/json
+
+### Send POST request with json body
+POST http://sym.project/api/juegosapinuevo
+Content-Type: application/json
+
+{
+"nombre": "Juego API",
+"imagen": "Imagen juego API",
+"plataforma": "2",
+}
+
+### GET de un juego
+GET http://sym.project/api/juegosapi/5
+Content-Type: application/json
+
+### GET de todos los juegos
+GET http://sym.project/api/juegosapi
+Content-Type: application/json
+
+### DELETE de un juego
+DELETE http://sym.project/api/juegosapi/7
+Content-Type: application/json
+
+### PUT de actualización de una imagen
+PUT http://sym.project/api/juegosapi/14
+Content-Type: application/json
+
+{
+"nombre": "Juego API put",
+"imagen": "Imagen juego API put",
+"plataforma": "2",
+}
+
+### REVIEWS
+
+### Send POST request with json body
+POST http://sym.project/api/reviewsapinuevo
+Content-Type: application/json
+
+{
+"titulo": "Review API 1",
+"comentario": "Comentario de API 1",
+"ruta_captura": "captura",
+"juego": "1",
+"autor": "3",
+"fecha": "20/01/2024"
+}
+
+### GET de una review
+GET http://sym.project/api/reviewsapi/9
+Content-Type: application/json
+
+### DELETE de una imagen
+DELETE http://sym.project/api/reviewsapi/9
+Content-Type: application/json
+
+### PUT de actualización de una imagen
+PUT http://sym.project/api/reviewsapi/9
+Content-Type: application/json
+
+{
+"titulo": "Review API 1 put",
+"comentario": "Comentario de API 1 put",
+"ruta_captura": "captura",
+"juego": "1",
+"autor": "3",
+"fecha": "11/02/2025"
+}
+
+### GET para obtener datos filtrados
+GET http://sym.project/api/reviewsapi/filtradas/fechaInicial=2024-01-03
+Content-Type: application/json
